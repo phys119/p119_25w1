@@ -16,9 +16,9 @@ Lab01/*
 !Lab01/Lab01.ipynb
 # --------- LAB 02 ---------
 Lab02/*
-# !Lab02/Prelab02.ipynb
-# !Lab02/Lab02.ipynb
-# !Lab02/lab02_data_round1.csv
+!Lab02/Prelab02.ipynb
+!Lab02/Lab02.ipynb
+!Lab02/lab02_data_round1.csv
 # --------- LAB 03 ---------
 Lab03/*
 # !Lab03/Prelab03.ipynb
