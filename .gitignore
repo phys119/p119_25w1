@@ -28,8 +28,8 @@ Lab03/*
 !Lab03/lab03_1.csv
 # --------- LAB 04 ---------
 Lab04/*
-# !Lab04/Lab04.ipynb
-# !Lab03/Prelab04.ipynb
+!Lab04/Lab04.ipynb
+!Lab04/Prelab04.ipynb
 # --------- LAB 05 ---------
 Lab05/*
 # !Lab05/Prelab05.ipynb
