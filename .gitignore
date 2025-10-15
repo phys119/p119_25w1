@@ -32,14 +32,14 @@ Lab04/*
 !Lab04/Prelab04.ipynb
 # --------- LAB 05 ---------
 Lab05/*
-# !Lab05/Prelab05.ipynb
-# !Lab05/prelab05_ohms_law.csv
-# !Lab05/prelab05_hookes_law.csv
-# !Lab05/LoopCircuit.png
-# !Lab05/VoltageVsCurrent.png
-# !Lab05/Lab05.ipynb
-# !Lab05/lab05_round1.csv
-# !Lab05/lab05_fitting_results_round1.csv
+!Lab05/Prelab05.ipynb
+!Lab05/prelab05_ohms_law.csv
+!Lab05/prelab05_hookes_law.csv
+!Lab05/LoopCircuit.png
+!Lab05/VoltageVsCurrent.png
+!Lab05/Lab05.ipynb
+!Lab05/lab05_round1.csv
+!Lab05/lab05_fitting_results_round1.csv
 # --------- LAB 06 ---------
 # Use two "*" for folders with subfolders
 Lab06/**
