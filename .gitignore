@@ -46,8 +46,8 @@ Lab06/**
 # !Lab06/Prelab06.ipynb
 # !Lab06/lab06_prelab_data.csv
 # !Lab06/Lab06.ipynb
-# !Lab06/Lab06-demo/
-# !Lab06/Lab06-demo/Lab06_demo.ipynb
+!Lab06/Lab06-demo/
+!Lab06/Lab06-demo/Lab06_demo.ipynb
 # --------- LAB 07 ---------
 Lab07/*
 # !Lab07/Prelab07.ipynb
