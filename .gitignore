@@ -43,9 +43,9 @@ Lab05/*
 # --------- LAB 06 ---------
 # Use two "*" for folders with subfolders
 Lab06/**
-# !Lab06/Prelab06.ipynb
-# !Lab06/lab06_prelab_data.csv
-# !Lab06/Lab06.ipynb
+!Lab06/Prelab06.ipynb
+!Lab06/lab06_prelab_data.csv
+!Lab06/Lab06.ipynb
 !Lab06/Lab06-demo/
 !Lab06/Lab06-demo/Lab06_demo.ipynb
 # --------- LAB 07 ---------
