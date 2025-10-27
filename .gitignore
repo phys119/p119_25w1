@@ -50,9 +50,9 @@ Lab06/**
 !Lab06/Lab06-demo/Lab06_demo.ipynb
 # --------- LAB 07 ---------
 Lab07/*
-# !Lab07/Prelab07.ipynb
-# !Lab07/prelab07_data.csv
-# !Lab07/Lab07.ipynb
+!Lab07/Prelab07.ipynb
+!Lab07/prelab07_data.csv
+!Lab07/Lab07.ipynb
 # --------- LAB 08 ---------
 Lab08/*
 # !Lab08/Prelab08.ipynb
