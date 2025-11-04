@@ -55,8 +55,8 @@ Lab07/*
 !Lab07/Lab07.ipynb
 # --------- LAB 08 ---------
 Lab08/*
-# !Lab08/Prelab08.ipynb
-# !Lab08/Lab08.ipynb
+!Lab08/Prelab08.ipynb
+!Lab08/Lab08.ipynb
 # --------- LAB 09 ---------
 Lab09/*
 # !Lab09/Prelab09.ipynb
