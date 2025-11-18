@@ -59,11 +59,11 @@ Lab08/*
 !Lab08/Lab08.ipynb
 # --------- LAB 09 ---------
 Lab09/*
-# !Lab09/Prelab09.ipynb
-# !Lab09/lab09_prelab_data1.csv
-# !Lab09/lab09_prelab_data2.csv
-# !Lab09/Lab09.ipynb
-# !Lab09/lab09_data.csv
+!Lab09/Prelab09.ipynb
+!Lab09/lab09_prelab_data1.csv
+!Lab09/lab09_prelab_data2.csv
+!Lab09/Lab09.ipynb
+!Lab09/lab09_data.csv
 
 # --------- LAB 10 ---------
 Lab10/*
