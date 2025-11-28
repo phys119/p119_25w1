@@ -72,6 +72,9 @@ Lab10/*
 !Lab10/Lab10-chi2-table.csv
 !Lab10/Lab10-demo/
 !Lab10/Lab10-demo/Lab10_demo.ipynb
+# remove lines below if fit_plot was update by Carl.
+!Lab10/fit_plot2.py
+!Lab10/Lab10-demo//fit_plot2.py
 # --------- RESOURCES ------
 Resources/*
 # --------- ARCHIVE --------
