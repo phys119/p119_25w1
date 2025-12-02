@@ -315,8 +315,21 @@ class generic_fit_with_background:
                     chi2val = chi2val/(len(self.residuals) - 2)
                 print("Chi2: %.4g"%(chi2val))
         
-    def __init__(self, name, xdata, ydata, yerr, use_background, chi2, input_boxes, render_to_html=False):
+    def __init__(self, name, xdata, ydata, yerr, use_background, chi2, input_boxes, render_to_html=None):
         global objs, names
+        
+        # Store the render_to_html setting or the export_toggle reference
+        if render_to_html is None:
+            try:
+                from html_export_widget import export_toggle
+                self.export_toggle = export_toggle
+                self._render_to_html = None  # Will check export_toggle.value when needed
+            except (ImportError, AttributeError):
+                self.export_toggle = None
+                self._render_to_html = False
+        else:
+            self.export_toggle = None
+            self._render_to_html = bool(render_to_html)
 
         # Input validation with proper error messages
         if not isinstance(xdata, np.ndarray):
@@ -492,8 +505,8 @@ class generic_fit_with_background:
                     pane_heights=[12, 1, 0], grid_gap="1px", align_items='center',
                     pane_widths=[20, 0, 1])
         
-        # Handle HTML rendering if requested
-        if render_to_html:
+        # Check if we should render as HTML
+        if self._render_to_html if self.export_toggle is None else self.export_toggle.value:
             from IPython.display import HTML, display as ipy_display
             import io
             import base64
@@ -747,10 +760,12 @@ class line(generic_fit_with_background):
     yerr: uncertainties in y values
     use_background: a boolean. If false we just do a linear fit, if true the function is
             np.log(np.exp(self.intercept)*np.exp(self.cxp*self.slope)+np.exp(self.yoff))
+    chi2: if True, show chi-squared value
     input_boxes: a boolean. If True display boxes that allow manual setting of parameters
-    render_to_html: a boolean. If True, returns a static HTML representation instead of an interactive widget
+    render_to_html: a boolean. If True, returns a static HTML representation instead of an interactive widget.
+                   If None, will use the value of export_toggle.value if available.
     """
-    def __init__(self, name, xdata, ydata, yerr, chi2=False, input_boxes=True, render_to_html=False):
+    def __init__(self, name, xdata, ydata, yerr, chi2=False, input_boxes=True, render_to_html=None):
         super().__init__(name, xdata, ydata, yerr, False, chi2, input_boxes, render_to_html)
 
 class with_background(generic_fit_with_background):
@@ -763,8 +778,10 @@ class with_background(generic_fit_with_background):
     yerr: uncertainties in y values
     use_background: a boolean. If false we just do a linear fit, if true the function is
             np.log(np.exp(self.intercept)*np.exp(self.cxp*self.slope)+np.exp(self.yoff))
+    chi2: if True, show chi-squared value
     input_boxes: a boolean. If True display boxes that allow manual setting of parameters
-    render_to_html: a boolean. If True, returns a static HTML representation instead of an interactive widget
+    render_to_html: a boolean. If True, returns a static HTML representation instead of an interactive widget.
+                   If None, will use the value of export_toggle.value if available.
     """
-    def __init__(self, name, xdata, ydata, yerr, chi2=False, input_boxes=True, render_to_html=False):
+    def __init__(self, name, xdata, ydata, yerr, chi2=False, input_boxes=True, render_to_html=None):
         super().__init__(name, xdata, ydata, yerr, True, chi2, input_boxes, render_to_html)
