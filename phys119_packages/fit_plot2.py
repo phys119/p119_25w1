@@ -511,6 +511,13 @@ class generic_fit_with_background:
             import io
             import base64
             
+            # Close the interactive figure to prevent it from showing up
+            plt.close(self.fig)
+            
+            # Ensure we have proper scaling before rendering to HTML
+            self.update_displays(initial_scale=True)
+            plt.pause(0.1)  # Give matplotlib a moment to update the figure
+            
             # Save the original titles
             orig_suptitle = self.fig._suptitle.get_text() if hasattr(self.fig, '_suptitle') and self.fig._suptitle is not None else ""
             
@@ -523,27 +530,36 @@ class generic_fit_with_background:
                 if i == 1:  # Main plot
                     ax.set_title('Fit Plot')
                     
-                    # Get all y-values from data and fit line, excluding anchor points
-                    y_values = []
+                    # Get y-values from data points (most important for scaling)
+                    y_values = list(self.ydata)
                     
-                    # Get data points from errorbar plot (main data)
-                    for collection in ax.collections:
-                        if hasattr(collection, '_y'):
-                            y_data = collection._y
-                            y_values.extend(y_data)
-                            
-                            # Include error bars if present
-                            if hasattr(collection, '_yerr'):
-                                yerr = collection._yerr
-                                if yerr is not None:
-                                    if isinstance(yerr, tuple):
-                                        # Asymmetric error bars
-                                        y_values.extend(y_data - yerr[0])
-                                        y_values.extend(y_data + yerr[1])
-                                    else:
-                                        # Symmetric error bars
-                                        y_values.extend(y_data - yerr)
-                                        y_values.extend(y_data + yerr)
+                    # Include error bars in the y-range calculation
+                    yerr = self.yerr if hasattr(self, 'yerr') else np.zeros_like(self.ydata)
+                    yerr = np.where(np.isnan(yerr), 0, yerr)  # Handle any NaN values
+                    
+                    # Calculate data range and add small padding
+                    data_min = np.min(self.ydata - yerr)
+                    data_max = np.max(self.ydata + yerr)
+                    data_range = data_max - data_min
+                    
+                    # Add small padding (5% of range or 10% of max value, whichever is smaller)
+                    padding = min(data_range * 0.05, np.max(np.abs([data_min, data_max])) * 0.1)
+                    if padding == 0:  # In case all values are the same
+                        padding = 0.1 * np.abs(data_max) if data_max != 0 else 0.1
+                    
+                    # Set the y-limits based on data range and padding
+                    y_min = data_min - padding
+                    y_max = data_max + padding
+                    
+                    # Ensure we don't go below zero if all data is positive
+                    if np.min(y_values) >= 0:
+                        y_min = max(0, y_min)
+                    
+                    # Apply the limits
+                    ax.set_ylim(y_min, y_max)
+                    
+                    # No need to include fit or anchor points in y_values
+                    # as we're setting the limits directly based on data
                     
                     # Get fit line data (excluding anchor points)
                     for line in ax.get_lines():
@@ -577,15 +593,14 @@ class generic_fit_with_background:
                         ax.set_ylim(-max_resid, max_resid)
                     continue
                 
-                # Set y-limits for the current axis
-                if y_values:
-                    y_min, y_max = np.min(y_values), np.max(y_values)
-                    y_range = y_max - y_min
-                    
-                    # Add padding (25% at bottom, 15% at top to prevent cropping)
-                    bottom_padding = max(y_range * 0.25, abs(y_min) * 0.15, 0.15)
-                    top_padding = max(y_range * 0.15, abs(y_max) * 0.15, 0.2)
-                    ax.set_ylim(y_min - bottom_padding, y_max + top_padding)
+                # Skip setting y-limits here as we're setting them directly in the main plot section
+                # This prevents the second scaling pass from overriding our carefully calculated limits
+                if i != 1:  # Only process non-main plots here
+                    if y_values:
+                        y_min, y_max = np.min(y_values), np.max(y_values)
+                        y_range = y_max - y_min
+                        padding = max(y_range * 0.1, 0.1)  # Minimum 0.1 padding
+                        ax.set_ylim(y_min - padding, y_max + padding)
                 
             # Keep other subplot titles as they are
             
@@ -671,19 +686,21 @@ class generic_fit_with_background:
                 if not orig_suptitle and hasattr(self.fig, '_suptitle'):
                     self.fig._suptitle = None
         else:
-            # Clear any existing output and display the widget
-            clear_output(wait=True)
-            display(app)
-            
-            # Print initial output and set the current axis
-            self.print_output(message, self.chi2)
-            plt.sca(self.ax[1])
-            
-            # Initial display with proper scaling
-            self.update_displays(initial_scale=True)
-            
-            # Ensure the plot is drawn
-            self.fig.canvas.draw_idle()
+            # Only show the interactive widget if we're not in HTML export mode
+            if not (self._render_to_html if self.export_toggle is None else self.export_toggle.value):
+                # Clear any existing output and display the widget
+                clear_output(wait=True)
+                display(app)
+                
+                # Print initial output and set the current axis
+                self.print_output(message, self.chi2)
+                plt.sca(self.ax[1])
+                
+                # Initial display with proper scaling
+                self.update_displays(initial_scale=True)
+                
+                # Ensure the plot is drawn
+                self.fig.canvas.draw_idle()
             return None
 
     def onclick(self, event):
